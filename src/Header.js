@@ -1,5 +1,5 @@
 import React from "react";
-import "./header.css";
+import "./Header.css";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 
@@ -48,7 +48,6 @@ function Header() {
             0
           </span>
         </div>
-
       </div>
     </div>
   );

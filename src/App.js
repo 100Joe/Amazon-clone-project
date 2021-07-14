@@ -1,14 +1,26 @@
 import React from 'react';
 import './App.css';
 import Header from './Header';
+import Home from './Home';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 function App() {
   return (
-    // BEM Block, Element, and Modifier is a type of convetion. 
-    <div className="App">
-      <Header />
-      {/* Home */}
-    </div>
+    // BEM Block, Element, and Modifier is a type of convetion.
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route path='/checkout'>
+            <Header />
+            <h1>I AM A CHECKOUT, GET IT DONE!</h1>
+          </Route>
+          <Route path='/'>
+            <Header />
+            <Home />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
