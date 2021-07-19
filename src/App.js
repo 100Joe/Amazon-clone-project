@@ -10,13 +10,12 @@ function App() {
     // BEM Block, Element, and Modifier is a type of convetion.
     <Router>
       <div className="App">
+        <Header />
         <Switch>
           <Route path='/checkout'>
-            <Header />
             <Checkout />
           </Route>
           <Route path='/'>
-            <Header />
             <Home />
           </Route>
         </Switch>
