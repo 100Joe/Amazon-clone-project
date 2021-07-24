@@ -6,7 +6,6 @@ const stripe = require("stripe")(
   "sk_test_51JFQpKHHaHMYFKfFEMbk4OyH1CHst0iEYfSDEvWW01P1n6bYfECVt8OrZffcjUSFJoPq0KJDirtsHJn61yG2ObQh008wN7ljVN"
 );
 
-
 // API
 
 // - App config
@@ -19,10 +18,8 @@ app.use(express.json());
 // - API routes
 app.get("/", (request, response) => response.status(200).send("hello world"));
 
-app.post("/payments/create", async (request, response) => {
-  const total = request.query.total;
-
-  console.log("Payment Request Recieved BOOM!!! for this amount >>> ", total);
+app.post("/payments/create", async (req, res) => {
+  const total = req.query.total;
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: total, // subunits of the currency
@@ -30,10 +27,11 @@ app.post("/payments/create", async (request, response) => {
   });
 
   // OK - Created
-  response.status(201).send({
+  res.status(201).send({
     clientSecret: paymentIntent.client_secret,
   });
 });
 
 // - Listen command
 exports.api = functions.https.onRequest(app);
+

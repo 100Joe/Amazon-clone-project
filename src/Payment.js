@@ -1,13 +1,13 @@
 import { Link, useHistory } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CheckoutProduct from './CheckoutProduct';
 import './Payment.css';
 import { useStateValue } from './StateProvider';
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 import CurrencyFormat from 'react-currency-format';
 import { getBasketTotal } from './Reducer';
-import { useEffect } from 'react';
 import axios from './axios';
+import { db } from './firebase';
 
 
 function Payment() {
@@ -36,6 +36,7 @@ function Payment() {
     getClientSecret();
   }, [basket])
 
+  console.log('THE SECRET IS >>>', clientSecret);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -46,11 +47,27 @@ function Payment() {
         card: elements.getElement(CardElement)
       }
     }).then(({ paymentIntent }) => {
+
+      db
+        .collection('users')
+        .doc(user?.uid)
+        .collection('orders')
+        .doc(paymentIntent.id)
+        .set({
+          basekt: basket,
+          amount: paymentIntent.amount,
+          created: paymentIntent.created
+        })
+
       setSucceeded(true)
       setError(null)
       setProcessing(false)
 
-      history.replaceState('/orders')
+      dispatch({
+        type: 'EMPTY_BASKET'
+      })
+
+      history.replace('/orders')
     })
   }
 
